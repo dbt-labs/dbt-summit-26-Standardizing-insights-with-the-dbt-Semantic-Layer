@@ -132,6 +132,9 @@ metrics:
         name: net_item_sales_amount
         fill_nulls_with: 0
         join_to_timespine: true
+      cumulative_type_params:
+        grain_to_date: year
+
   ### Derived Metrics
   - name: met_gross_profit
     description: The gross profit of a particular line item.
