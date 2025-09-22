@@ -1,0 +1,18 @@
+version: 2
+
+metrics:
+  ### Simple Metrics ###
+  - name: met_account_balance
+    description: The account balance of a customer.
+    label: Customer Account Balance
+    type: simple
+    type_params:
+      measure: 
+        name: account_balance
+  - name: met_count_customers
+    description: The disctinct count of customers
+    label: Count Customers
+    type: simple
+    type_params:
+      measure:
+        name: count_customer

@@ -34,9 +34,9 @@ renamed as (
         l_returnflag as return_flag,
         
         -- dates
-        l_shipdate as ship_date,
-        l_commitdate as commit_date,
-        l_receiptdate as receipt_date
+        {{ modernize_dates('l_shipdate') }} as ship_date,
+        {{ modernize_dates('l_commitdate') }} as commit_date,
+        {{ modernize_dates('l_receiptdate') }} as receipt_date
 
     from source
 

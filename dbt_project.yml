@@ -28,10 +28,14 @@ clean-targets:         # directories to be removed by `dbt clean`
 # Full documentation: https://docs.getdbt.com/docs/configuring-models
 models:
   coalesce_intro_to_semantic_layer:
-    marts:
-      +materialized: table
-      +tags: ['marts']
-    intermediate:
+    01_staging:
       +materialized: view
-    staging:
+    02_intermediate:
       +materialized: view
+    03_presentation:
+      finance:
+        +materialized: table
+        +tags: ['marts']
+      marketing:
+        +materialized: table
+        +tags: ['marts']

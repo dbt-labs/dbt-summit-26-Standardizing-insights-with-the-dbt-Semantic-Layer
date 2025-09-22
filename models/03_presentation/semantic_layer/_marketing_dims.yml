@@ -1,0 +1,46 @@
+semantic_models:
+- name: sem_customers
+  model: ref('dim_customers')
+  description: Customer dimensions table.
+  defaults:
+    agg_time_dimension: dummy_date
+
+  #### Entities ####
+  entities:
+    - name: customer
+      type: primary
+      expr: customer_id
+
+  #### Dimensions ####
+  dimensions:
+    # Categorical Dimensions
+    - name: name
+      description: customer name
+      type: categorical
+    - name: address
+      description: address of the customer
+      type: categorical
+    - name: nation
+      description: nation name
+      type: categorical
+    - name: region
+      description: region name
+      type: categorical
+    - name: market_segment
+      description: market segment of the customer
+      type: categorical
+    # Time Dimensions
+    - name: dummy_date
+      type: time
+      expr: current_date()
+      type_params:
+        time_granularity: day
+
+  #### Measures ####
+  measures:
+    - name: account_balance
+      description: The account balance of the customer.
+      agg: sum
+    - name: count_customer
+      agg: count_distinct
+      expr: customer_id

@@ -1,0 +1,1 @@
+{% docs total_cost %} The supplier cost multiplied by the total quanity purchased. {% enddocs %}
