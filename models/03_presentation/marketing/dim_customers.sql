@@ -24,7 +24,7 @@ region as (
 
 final as (
     select
-        customer.customer_id,
+        customer.customer_id as id,
         customer.name,
         customer.address,
         nation.name as nation,
