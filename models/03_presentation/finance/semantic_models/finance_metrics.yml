@@ -1,0 +1,68 @@
+metrics:
+  # simple
+  - name: met_net_item_sales_amount
+    description: The item sales amount.
+    label: Sales Amount - Net
+    type: simple
+    type_params:
+      measure: 
+        name: net_item_sales_amount
+  - name: met_gross_item_sales_amount
+    description: The gross sales amount for the item.
+    label: Sales Amount - Gross
+    type: simple
+    type_params:
+      measure:
+        name: gross_item_sales_amount
+  - name: met_total_supplier_cost
+    description: The supplier cost of an item.
+    label: Total Supplier Cost
+    type: simple
+    type_params:
+      measure:
+        name: total_supplier_cost
+
+  # derived
+  - name: gross_profit
+    description: Gross profit calculated as net item sales amount minus total supplier
+      cost.
+    label: Gross Profit
+    type: derived
+    type_params:
+      expr: net_item_sales_amount - total_supplier_cost
+      metrics:
+      - name: net_item_sales_amount
+      - name: total_supplier_cost
+  - name: met_average_sales_per_customer
+    description: The average total sales per customer
+    type: derived
+    label: Average Sales Per Customer
+    type_params:
+      expr: sales/count_of_customers
+      metrics:
+        - name: met_net_item_sales_amount
+          alias: sales
+        - name: met_count_customers
+          alias: count_of_customers
+
+  # cumulative
+  - name: met_cumulative_sales
+    description: Cumulative sales over a specified time period.
+    type: cumulative
+    label: Cumulative Net Sales
+    type_params:
+      measure:
+        name: net_item_sales_amount
+        fill_nulls_with: 0
+        join_to_timespine: true
+      cumulative_type_params:
+        grain_to_date: year
+
+  # ratio
+  - name: met_cost_ratio
+    description: The ratio of cost of item to the sales price of the item (using totals)
+    label: Cost Ratio
+    type: ratio
+    type_params:
+      numerator: met_total_supplier_cost
+      denominator: met_gross_item_sales_amount
