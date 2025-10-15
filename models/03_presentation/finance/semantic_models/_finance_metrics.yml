@@ -1,0 +1,10 @@
+metrics:
+- name: gross_profit
+  description: Gross profit from each order item.
+  label: Gross Profit
+  type: derived
+  type_params:
+    expr: net_item_sales_amount - total_supplier_cost
+    metrics:
+    - name: net_item_sales_amount
+    - name: total_supplier_cost

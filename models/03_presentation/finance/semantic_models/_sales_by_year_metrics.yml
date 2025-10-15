@@ -1,0 +1,9 @@
+metrics:
+- name: net_cumulative_sales_by_year
+  description: Net cumulative sales by year
+  label: Net Cumulative Sales by Year
+  type: cumulative
+  type_params:
+    grain_to_date: year
+    measure:
+      name: net_item_sales_amount

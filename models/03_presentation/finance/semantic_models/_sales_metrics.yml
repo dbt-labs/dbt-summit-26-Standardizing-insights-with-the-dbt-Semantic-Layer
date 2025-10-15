@@ -1,0 +1,10 @@
+metrics:
+- name: avg_sales_per_customer
+  description: Average sales per customer
+  label: Average Sales per Customer
+  type: ratio
+  type_params:
+    denominator:
+      name: count_customer
+    numerator:
+      name: gross_item_sales_amount

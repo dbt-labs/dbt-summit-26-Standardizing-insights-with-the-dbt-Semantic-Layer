@@ -1,0 +1,10 @@
+metrics:
+- name: supplier_cost_ratio
+  description: Ratio of supplier cost to total supplier cost
+  label: Supplier Cost Ratio
+  type: ratio
+  type_params:
+    denominator:
+      name: total_supplier_cost
+    numerator:
+      name: supplier_cost
