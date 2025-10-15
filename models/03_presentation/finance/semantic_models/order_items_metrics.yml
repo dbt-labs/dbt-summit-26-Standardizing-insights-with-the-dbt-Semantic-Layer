@@ -1,0 +1,50 @@
+version: 2
+
+metrics:
+  # --- Ratio: Cost to Gross Sales ---
+  - name: met_cost_ratio
+    description: Ratio of total supplier cost to gross sales.
+    label: Cost to Gross Sales Ratio
+    type: ratio
+    type_params:
+      numerator: met_total_supplier_cost
+      denominator: met_gross_item_sales_amount
+
+  # --- Cumulative: Sales by Year ---
+  - name: met_cumulative_sales
+    description: Year-to-date cumulative net sales amount.
+    label: Cumulative Sales (YTD)
+    type: cumulative
+    type_params:
+      measure:
+        name: net_item_sales_amount
+        fill_nulls_with: 0
+        join_to_timespine: true
+      cumulative_type_params:
+        grain_to_date: year
+
+  # --- Derived: Gross Profit ---
+  - name: met_gross_profit
+    description: Gross profit calculated as net sales minus supplier cost.
+    label: Gross Profit
+    type: derived
+    type_params:
+      expr: sales - cost
+      metrics:
+        - name: met_net_item_sales_amount
+          alias: sales
+        - name: met_total_supplier_cost
+          alias: cost
+
+  # --- Derived: Average Sales per Customer ---
+  - name: met_average_sales_per_customer
+    description: Average total sales per customer.
+    label: Average Sales per Customer
+    type: derived
+    type_params:
+      expr: sales / customers
+      metrics:
+        - name: met_net_item_sales_amount
+          alias: sales
+        - name: met_count_customer
+          alias: customers
