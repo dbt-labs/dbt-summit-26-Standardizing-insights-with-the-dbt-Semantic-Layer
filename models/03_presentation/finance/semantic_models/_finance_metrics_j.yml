@@ -1,0 +1,42 @@
+version: 2
+
+metrics:
+  - name: met_total_cost
+    description: The supplier cost of an item.
+    label: Total Cost
+    type: simple
+    type_params:
+      measure:
+        name: total_supplier_cost
+  ### Ratio Metrics ###
+  - name: met_cost_ratio
+    description: The ratio of cost of item to the sales price of the item (using totals)
+    label: Cost Ratio
+    type: ratio
+    type_params:
+      numerator: met_total_cost
+      denominator: gross_item_sales_amount
+  ### Cumulative Metrics
+  - name: met_cumulative_sales
+    description: Cumulative sales over a specified time period.
+    type: cumulative
+    label: Cumulative Net Sales
+    type_params:
+      measure:
+        name: net_item_sales_amount
+        fill_nulls_with: 0
+        join_to_timespine: true
+      cumulative_type_params:
+        grain_to_date: year
+  ### Derived Metrics
+  - name: met_gross_profit
+    description: The gross profit of a particular line item.
+    type: derived
+    label: Gross Profit
+    type_params:
+      expr: sales - cost
+      metrics:
+        - name: net_item_sales_amount
+          alias: sales
+        - name: met_total_cost
+          alias: cost
