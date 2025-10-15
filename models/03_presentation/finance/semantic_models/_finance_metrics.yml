@@ -8,6 +8,35 @@ metrics:
     expr: net_item_sales_amount - total_supplier_cost
     metrics:
     - name: net_item_sales_amount
-      alias: net_item_sales_amount
+      alias: sales
     - name: total_supplier_cost
-      alias: total_supplier_cost
+      alias: supplier_cost
+
+- name: cost_ratio
+  description: Ratio of total supplier cost to gross item sales amount.
+  label: Cost Ratio
+  type: ratio
+  type_params:
+    denominator:
+      name: gross_item_sales_amount
+    numerator:
+      name: total_supplier_cost
+
+- name: cumulative_net_sales_ytd
+  description: Year-to-date cumulative net sales amount after discounts and taxes.
+  label: Cumulative Net Sales (YTD)
+  type: cumulative
+  type_params:
+    grain_to_date: year
+    measure:
+      name: net_item_sales_amount
+
+- name: average_sales_per_customer
+  description: Average sales per customer based on net item sales amount.
+  label: Average Sales per Customer
+  type: ratio
+  type_params:
+    denominator:
+      name: met_count_customers
+    numerator:
+      name: net_item_sales_amount
