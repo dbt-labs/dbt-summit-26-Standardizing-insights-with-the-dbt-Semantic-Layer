@@ -1,0 +1,116 @@
+semantic_models:
+- name: sem_order_items
+  model: ref('fct_order_items')
+  description: Order items fact table with detailed sales and order information.
+  defaults:
+    agg_time_dimension: order_date
+
+#### Entities ####
+  entities:
+    - name: order_item
+      type: primary
+      expr: order_item_id
+    - name: order_id # "order" is a reserved word so we must reference the order in this way
+      type: foreign
+    - name: customer
+      type: foreign
+      expr: customer_id
+    - name: part
+      type: foreign
+      expr: part_id
+    - name: supplier
+      type: foreign
+      expr: supplier_id
+
+#### Dimensions ####
+  dimensions:
+  # Categorigcal Dimensions
+    - name: status_code
+      description: Status of the order item.
+      expr: order_item_status_code
+      type: categorical
+    - name: return_flag
+      description: Return flag of the order item.
+      type: categorical
+    - name: ship_mode
+      description: Shipping mode of the order item.
+      type: categorical
+    # Time Dimensions
+    - name: order_date
+      description: Date of the order.
+      type: time
+      type_params:
+        time_granularity: day
+    - name: ship_date
+      description: Date the order item was shipped.
+      type: time
+      type_params:
+        time_granularity: day
+    - name: commit_date
+      description: Date the order item was committed.
+      type: time
+      type_params:
+        time_granularity: day
+    - name: receipt_date
+      description: Date the order item was received.
+      type: time
+      type_params:
+        time_granularity: day
+
+#### Measures ####
+  measures:
+    # Sums
+    - name: item_cost
+      description: Cost from the supplier for the order item.
+      agg: sum
+      expr: supplier_cost
+    - name: total_cost
+      description: Cost from the supplier for the order item multiplied by the quantity purchased.
+      agg: sum
+      expr: total_supplier_cost
+    - name: base_price
+      description: Base price of the order item.
+      agg: sum
+    - name: discounted_price
+      description: Discounted price of the order item.
+      agg: sum
+    - name: quantity
+      description: Total units of the order item.
+      agg: sum
+    - name: gross_item_sales_amount
+      description: Gross sales amount of the order item.
+      agg: sum
+    - name: discounted_item_sales_amount
+      description: Discounted sales amount of the order item.
+      agg: sum
+    - name: item_discount_amount
+      description: Discount amount on the order item.
+      agg: sum
+    - name: item_tax_amount
+      description: Tax amount on the order item.
+      agg: sum
+    - name: net_item_sales_amount
+      description: Net sales amount of the order item.
+      agg: sum
+    # Averages
+    - name: discount_percentage_average
+      description: Discount percentage applied to the order item.
+      agg: average
+      expr: discount_percentage
+    - name: tax_rate_average
+      description: Tax rate applied to the order item.
+      agg: average
+      expr: tax_rate
+    # Counts
+    - name: count_order_item
+      agg: count
+      expr: order_item_id
+    - name: count_order
+      agg: count_distinct
+      expr: order_id
+    - name: count_part
+      agg: count_distinct
+      expr: part_id
+    - name: count_supplier
+      agg: count_distinct
+      expr: supplier_id
