@@ -1,0 +1,41 @@
+metrics:
+  - name: cost_ratio
+    description: Ratio of cost to gross sales
+    type: ratio
+    type_params:
+      numerator: gross_item_sales_amount
+      denominator: total_supplier_cost
+    label: cost_ratio
+  - name: net_cumulative_sales_by_year
+    label: net_cumulative_sales_by_year
+    description: Name cumulative sales by year
+    type: cumulative
+    type_params:
+      measure:
+        name: gross_item_sales_amount
+        fill_nulls_with: 0
+        join_to_timespine: true
+      cumulative_type_params:
+        grain_to_date: year
+  - name: gross_profit
+    label: gross_profit
+    description: Gross sales minus cost
+    type: derived
+    type_params:
+      expr: revenue - cost
+      metrics:
+        - name: gross_item_sales_amount
+          alias: revenue
+        - name: total_supplier_cost
+          alias: cost
+  - name: avg_orders_per_customer
+    label: avg_orders_per_customer
+    description: Average number of orders per customer
+    type: derived
+    type_params:
+      expr: orders / customers
+      metrics:
+        - name: count_order
+          alias: orders
+        - name: count_customers
+          alias: customers
