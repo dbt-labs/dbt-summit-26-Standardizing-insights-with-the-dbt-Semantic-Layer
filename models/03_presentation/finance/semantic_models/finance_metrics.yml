@@ -1,0 +1,46 @@
+version: 2
+
+metrics:
+  ### Ratio Metrics ###
+- name: cost_to_sales_ratio
+  description: Ratio of total supplier cost to gross item sales amount.
+  label: Cost to Sales Ratio
+  type: ratio
+  type_params:
+    denominator:
+      name: gross_item_sales_amount
+    numerator:
+      name: total_supplier_cost
+
+  ### Cumulative Metrics
+- name: cumulative_net_item_sales_amount_ytd
+  description: Year-to-date cumulative net item sales amount
+  label: Cumulative Net Item Sales Amount (YTD)
+  type: cumulative
+  type_params:
+    measure:
+      name: net_item_sales_amount
+    cumulative_type_params:
+      grain_to_date: year
+      
+  ### Derived Metrics
+- name: gross_profit
+  description: Gross profit for each order item calculated as net sales amount minus
+    total supplier cost.
+  label: Gross Profit
+  type: derived
+  type_params:
+    expr: net_item_sales_amount - total_supplier_cost
+    metrics:
+    - name: net_item_sales_amount
+    - name: total_supplier_cost
+
+- name: average_total_sales_per_customer
+  description: Average total sales per customer
+  label: Average Total Sales per Customer
+  type: ratio
+  type_params:
+    denominator:
+      name: count_order
+    numerator:
+      name: net_item_sales_amount
