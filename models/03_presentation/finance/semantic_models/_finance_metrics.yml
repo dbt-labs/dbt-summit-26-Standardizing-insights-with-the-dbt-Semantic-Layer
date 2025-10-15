@@ -16,3 +16,13 @@ metrics:
     grain_to_date: year
     measure:
       name: net_item_sales_amount
+- name: gross_profit
+  description: Gross profit calculated as net item sales amount minus total supplier
+    cost.
+  label: Gross Profit
+  type: derived
+  type_params:
+    expr: net_item_sales_amount - total_supplier_cost
+    metrics:
+    - name: net_item_sales_amount
+    - name: total_supplier_cost
