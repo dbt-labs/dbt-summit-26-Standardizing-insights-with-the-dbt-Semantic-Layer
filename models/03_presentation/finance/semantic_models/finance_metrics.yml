@@ -1,0 +1,42 @@
+metrics:
+- name: met_gross_profit
+  description: Gross profit calculated as total net sales minus total supplier costs.
+  label: Gross Profit
+  type: derived
+  type_params:
+    expr: net_item_sales_amount - total_supplier_cost
+    metrics:
+    - name: net_item_sales_amount
+    - name: total_supplier_cost
+
+- name: met_cost_ratio
+  description: Ratio of total supplier cost to gross item sales amount.
+  label: Cost Ratio
+  type: ratio
+  type_params:
+    denominator:
+      name: gross_item_sales_amount
+    numerator:
+      name: total_supplier_cost
+
+- name: met_cumulative_net_sales_by_year
+  description: Net cumulative sales by year
+  label: Cumulative Net Sales by Year
+  type: cumulative
+  type_params:
+    grain_to_date: year
+    measure:
+      name: net_item_sales_amount
+
+    
+- name: met_avg_sales_per_customer
+  description: Average sales per customer
+  label: Average Sales per Customer
+  type: ratio
+  type_params:
+    denominator:
+      name: count_order
+      # filter: "customer IS NOT NULL"
+    numerator:
+      name: net_item_sales_amount
+
