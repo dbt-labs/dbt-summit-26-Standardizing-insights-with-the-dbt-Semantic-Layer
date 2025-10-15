@@ -1,4 +1,14 @@
 metrics:
+- name: cost_ratio
+  description: Ratio of total supplier cost to gross item sales amount.
+  label: Cost Ratio
+  type: ratio
+  type_params:
+    denominator:
+      name: gross_item_sales_amount
+    numerator:
+      name: total_supplier_cost
+      
 - name: gross_profit
   description: Gross profit calculated by subtracting total supplier costs from total
     net sales.
