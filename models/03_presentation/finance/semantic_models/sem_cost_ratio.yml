@@ -1,0 +1,10 @@
+metrics:
+- name: cost_to_gross_sale_ratio
+  description: Ratio of total supplier cost to gross item sales amount.
+  label: Cost to Gross Sale Ratio
+  type: ratio
+  type_params:
+    denominator:
+      name: gross_item_sales_amount
+    numerator:
+      name: total_supplier_cost
