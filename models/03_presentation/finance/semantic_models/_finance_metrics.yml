@@ -1,17 +1,6 @@
 version: 2
 
 metrics:
-  - name: gross_profit
-    description: Gross profit calculated by subtracting total cost from total net sales.
-    label: Gross Profit
-    type: derived
-    type_params:
-      expr: net_item_sales_amount - total_supplier_cost
-      metrics:
-      - name: net_item_sales_amount
-        alias: net_item_sales_amount
-      - name: total_supplier_cost
-        alias: total_supplier_cost
   - name: cost_ratio
     description: Ratio of total supplier cost to gross item sales amount.
     label: Cost Ratio
