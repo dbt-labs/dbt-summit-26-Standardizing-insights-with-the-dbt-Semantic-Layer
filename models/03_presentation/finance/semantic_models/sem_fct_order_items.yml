@@ -112,10 +112,6 @@ semantic_models:
     agg: count_distinct
     create_metric: true
     expr: order_id
-  - name: count_customer
-    agg: count_distinct
-    create_metric: true
-    expr: customer_id
   - name: count_part
     agg: count_distinct
     create_metric: true
