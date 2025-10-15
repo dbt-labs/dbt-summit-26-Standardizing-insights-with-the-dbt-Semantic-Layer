@@ -1,0 +1,148 @@
+semantic_models:
+- name: order_items
+  description: Order items fact table capturing details of each item in an order.
+  model: ref('fct_order_items')
+  defaults:
+    agg_time_dimension: order_date
+  entities:
+  - name: order_item
+    type: primary
+    expr: order_item_id
+  - name: order_id
+    type: foreign
+    expr: order_id
+  - name: customer
+    type: foreign
+    expr: customer_id
+  - name: part
+    type: foreign
+    expr: part_id
+  - name: supplier
+    type: foreign
+    expr: supplier_id
+  dimensions:
+  - name: order_date
+    type: time
+    type_params:
+      time_granularity: day
+  - name: status_code
+    expr: order_item_status_code
+    type: categorical
+  - name: return_flag
+    type: categorical
+  # - name: line_number
+  #   type: categorical
+  - name: ship_date
+    type: time
+    type_params:
+      time_granularity: day
+  - name: commit_date
+    type: time
+    type_params:
+      time_granularity: day
+  - name: receipt_date
+    type: time
+    type_params:
+      time_granularity: day
+  - name: ship_mode
+    type: categorical
+  - name: discount_percentage
+    type: categorical
+  - name: tax_rate
+    type: categorical
+  measures:
+  - name: supplier_cost
+    description: Cost from the supplier for the item.
+    agg: sum
+    create_metric: true
+  - name: total_supplier_cost
+    description: Total cost from the supplier for the quantity of items.
+    agg: sum
+    create_metric: true
+  - name: base_price
+    description: Base price of the item before discounts and taxes.
+    agg: sum
+    create_metric: true
+  - name: discounted_price
+    description: Price of the item after discounts.
+    agg: sum
+    create_metric: true
+  - name: quantity
+    description: Total units of the item ordered.
+    agg: sum
+    create_metric: true
+  - name: gross_item_sales_amount
+    description: Gross sales amount for the item before discounts and taxes.
+    agg: sum
+    create_metric: true
+  - name: discounted_item_sales_amount
+    description: Sales amount for the item after discounts.
+    agg: sum
+    create_metric: true
+  - name: item_discount_amount
+    description: Total discount amount for the item.
+    agg: sum
+    create_metric: true
+  - name: item_tax_amount
+    description: Total tax amount for the item.
+    agg: sum
+    create_metric: true
+  - name: net_item_sales_amount
+    description: Net sales amount for the item after discounts and taxes.
+    agg: sum
+    create_metric: true
+  - name: count_order_item
+    agg: count
+    create_metric: true
+    expr: order_item_id
+  - name: count_order
+    agg: count_distinct
+    create_metric: true
+    expr: order_id
+  - name: count_part
+    agg: count_distinct
+    create_metric: true
+    expr: part_id
+  - name: count_supplier
+    agg: count_distinct
+    create_metric: true
+    expr: supplier_id
+metrics:
+- name: cost_ratio
+  description: Ratio of total supplier cost to gross item sales amount.
+  label: Cost Ratio
+  type: ratio
+  type_params:
+    denominator:
+      name: gross_item_sales_amount
+    numerator:
+      name: total_supplier_cost
+- name: net_cumulative_sales_by_year
+  description: Net cumulative sales by year
+  label: Net Cumulative Sales by Year
+  type: cumulative
+  type_params:
+    grain_to_date: year
+    measure:
+      name: net_item_sales_amount
+- name: avg_sales_per_customer
+  description: Average sales per customer
+  label: Average Sales per Customer
+  type: ratio
+  type_params:
+    denominator:
+      name: count_order
+    numerator:
+      name: net_item_sales_amount
+# - name: gross_profit
+#   description: Gross profit from each order item.
+#   label: Gross Profit
+#   type: derived
+#   type_params:
+#     expr: discounted_item_sales_amount - total_supplier_cost
+#     metrics:
+#     - name: discounted_item_sales_amount
+#       alias: discounted_item_sales_amount
+#     - name: total_supplier_cost1
+#       alias: total_supplier_cost1
+
