@@ -1,0 +1,10 @@
+metrics:
+- name: average_sales_per_customer
+  description: Average sales per customer based on net item sales amount.
+  label: Average Sales per Customer
+  type: ratio
+  type_params:
+    denominator:
+      name: count_order
+    numerator:
+      name: net_item_sales_amount
