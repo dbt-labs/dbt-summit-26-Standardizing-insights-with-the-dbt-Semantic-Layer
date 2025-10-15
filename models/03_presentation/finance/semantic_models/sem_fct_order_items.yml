@@ -1,0 +1,275 @@
+semantic_models:
+- name: sem_order_items
+  model: ref('fct_order_items')
+  description: Order items fact table with detailed sales and order information.
+  defaults:
+    agg_time_dimension: order_date
+
+#### Entities ####
+  entities:
+    - name: order_item
+      type: primary
+      expr: order_item_id
+    - name: order_id # "order" is a reserved word so we must reference the order in this way
+      type: foreign
+    - name: customer
+      type: foreign
+      expr: customer_id
+    - name: part
+      type: foreign
+      expr: part_id
+    - name: supplier
+      type: foreign
+      expr: supplier_id
+
+#### Dimensions ####
+  dimensions:
+  # Categorigcal Dimensions
+    - name: status_code
+      description: Status of the order item.
+      expr: order_item_status_code
+      type: categorical
+    - name: return_flag
+      description: Return flag of the order item.
+      type: categorical
+    - name: ship_mode
+      description: Shipping mode of the order item.
+      type: categorical
+    # Time Dimensions
+    - name: order_date
+      description: Date of the order.
+      type: time
+      type_params:
+        time_granularity: day
+    - name: ship_date
+      description: Date the order item was shipped.
+      type: time
+      type_params:
+        time_granularity: day
+    - name: commit_date
+      description: Date the order item was committed.
+      type: time
+      type_params:
+        time_granularity: day
+    - name: receipt_date
+      description: Date the order item was received.
+      type: time
+      type_params:
+        time_granularity: day
+
+#### Measures ####
+  measures:
+    # Sums
+    - name: item_cost
+      description: Cost from the supplier for the order item.
+      agg: sum
+      expr: supplier_cost
+    - name: total_cost
+      description: Cost from the supplier for the order item multiplied by the quantity purchased.
+      agg: sum
+      expr: total_supplier_cost
+    - name: base_price
+      description: Base price of the order item.
+      agg: sum
+    - name: discounted_price
+      description: Discounted price of the order item.
+      agg: sum
+    - name: quantity
+      description: Total units of the order item.
+      agg: sum
+    - name: gross_item_sales_amount
+      description: Gross sales amount of the order item.
+      agg: sum
+    - name: discounted_item_sales_amount
+      description: Discounted sales amount of the order item.
+      agg: sum
+    - name: item_discount_amount
+      description: Discount amount on the order item.
+      agg: sum
+    - name: item_tax_amount
+      description: Tax amount on the order item.
+      agg: sum
+    - name: net_item_sales_amount
+      description: Net sales amount of the order item.
+      agg: sum
+    # Averages
+    - name: discount_percentage_average
+      description: Discount percentage applied to the order item.
+      agg: average
+      expr: discount_percentage
+    - name: tax_rate_average
+      description: Tax rate applied to the order item.
+      agg: average
+      expr: tax_rate
+    # Counts
+    - name: count_order_item
+      agg: count
+      expr: order_item_id
+    - name: count_order
+      agg: count_distinct
+      expr: order_id
+    - name: count_part
+      agg: count_distinct
+      expr: part_id
+    - name: count_supplier
+      agg: count_distinct
+      expr: supplier_id
+    
+metrics:
+  ### Simple Metrics ##
+  - name: met_item_cost
+    description: The supplier cost of an item.
+    label: Item Cost
+    type: simple
+    type_params:
+      measure:
+        name: item_cost
+  - name: met_total_cost
+    description: The supplier cost of an item.
+    label: Total Cost
+    type: simple
+    type_params:
+      measure:
+        name: total_cost
+  - name: met_base_price
+    description: The base price of an item.
+    label: Item Price - Base
+    type: simple
+    type_params:
+      measure:
+        name: base_price
+  - name: met_discounted_price
+    description: The discounted price of an item.
+    label: Item Price - Discounted
+    type: simple
+    type_params:
+      measure:
+        name: discounted_price
+  - name: met_quantity
+    description: The quantity of items purchased in the order.
+    label: Item Quanitity
+    type: simple
+    type_params:
+      measure:
+        name: quantity
+  - name: met_gross_item_sales_amount
+    description: The gross sales amount for the item.
+    label: Sales Amount - Gross
+    type: simple
+    type_params:
+      measure:
+        name: gross_item_sales_amount
+  - name: met_discounted_item_sales_amount
+    description: The discounted item sales amount for the item.
+    label: Sales Amount - Discounted
+    type: simple
+    type_params:
+      measure:
+        name: discounted_item_sales_amount
+  - name: met_item_discount_amount
+    description: The item discount amount.
+    label: Sales Discount
+    type: simple
+    type_params:
+      measure:
+        name: item_discount_amount
+  - name: met_item_tax_amount
+    description: The item tax amount.
+    label: Sales Amount - Tax
+    type: simple
+    type_params:
+      measure:
+        name: item_tax_amount
+  - name: met_net_item_sales_amount
+    description: The item sales amount.
+    label: Sales Amount - Net
+    type: simple
+    type_params:
+      measure: 
+        name: net_item_sales_amount
+  - name: met_discount_percentage_average
+    description: The item discount percentage averaged over whatever aggregation.
+    type: simple
+    label: Sales Discount Percentage Average
+    type_params:
+      measure:
+        name: discount_percentage_average
+  - name: met_tax_rate_average
+    description: The average tax rate over whatever aggregation.
+    label: Sales Tax Rate Average
+    type: simple
+    type_params:
+      measure:
+        name: tax_rate_average
+  - name: met_count_order_item
+    description: The count of order items.
+    label: Count Order Items
+    type: simple
+    type_params:
+      measure:
+        name: count_order_item
+  - name: met_count_order
+    description: The count of orders.
+    label: Count Orders
+    type: simple
+    type_params:
+      measure:
+        name: count_order
+  - name: met_count_part
+    description: The count of parts.
+    label: Count Parts
+    type: simple
+    type_params:
+      measure:
+        name: count_part
+  - name: met_count_supplier
+    description: The count of suppliers.
+    label: Count Suppliers
+    type: simple
+    type_params:
+      measure:
+        name: count_supplier
+  ### Ratio Metrics ###
+  - name: met_cost_ratio
+    description: The ratio of cost of item to the sales price of the item (using totals)
+    label: Cost Ratio
+    type: ratio
+    type_params:
+      numerator: met_total_cost
+      denominator: met_gross_item_sales_amount
+  ### Cumulative Metrics
+  - name: met_cumulative_sales
+    description: Cumulative sales over a specified time period.
+    type: cumulative
+    label: Cumulative Net Sales
+    type_params:
+      measure:
+        name: net_item_sales_amount
+        fill_nulls_with: 0
+        join_to_timespine: true
+      cumulative_type_params:
+        grain_to_date: year
+
+  ### Derived Metrics
+  - name: met_gross_profit
+    description: The gross profit of a particular line item.
+    type: derived
+    label: Gross Profit
+    type_params:
+      expr: sales - cost
+      metrics:
+        - name: met_net_item_sales_amount
+          alias: sales
+        - name: met_total_cost
+          alias: cost
+  - name: met_average_sales_per_customer
+    description: The average total sales per customer
+    type: derived
+    label: Average Sales Per Customer
+    type_params:
+      expr: sales/count_of_customers
+      metrics:
+        - name: met_net_item_sales_amount
+          alias: sales
+        - name: met_count_customers
+          alias: count_of_customers
