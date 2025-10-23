@@ -4,14 +4,14 @@ metrics:
   ### Simple Metrics ##
   - name: met_item_cost
     description: The supplier cost of an item.
-    label: Item Cost
+    label: Item Cost 商品の仕入れコスト
     type: simple
     type_params:
       measure:
         name: item_cost
   - name: met_total_cost
     description: The supplier cost of an item.
-    label: Total Cost
+    label: Total Cost 総コスト
     type: simple
     type_params:
       measure:
