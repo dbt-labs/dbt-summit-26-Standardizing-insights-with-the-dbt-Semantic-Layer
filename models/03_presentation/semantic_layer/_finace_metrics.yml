@@ -120,8 +120,8 @@ metrics:
     label: Cost Ratio
     type: ratio
     type_params:
-      numerator: total_cost 
-      denominator: net_item_sales_amount
+      numerator: met_total_cost
+      denominator: met_gross_item_sales_amount
   ### Cumulative Metrics
   - name: met_cumulative_sales
     description: Cumulative sales over a specified time period. (指定した時間の期間における、売上金額の累積合計)
