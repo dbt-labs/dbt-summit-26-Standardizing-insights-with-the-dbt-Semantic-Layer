@@ -1,0 +1,160 @@
+version: 2
+
+metrics:
+  ### Simple Metrics ##
+  - name: met_item_cost
+    description: The supplier cost of an item. (商品の仕入れ原価の"単価")
+    label: アイテム原価の単価
+    type: simple # TODO: 適切なmetricのtypeを指定する
+    type_params:
+      measure:
+        name: item_cost # TODO: 適切なmeasureのnameを指定する
+  - name: met_total_cost
+    description: The supplier cost of an item.
+    label: Total Cost
+    type: simple
+    type_params:
+      measure:
+        name: total_cost
+  - name: met_base_price
+    description: The base price of an item.
+    label: Item Price - Base
+    type: simple
+    type_params:
+      measure:
+        name: base_price
+  - name: met_discounted_price
+    description: The discounted price of an item.
+    label: Item Price - Discounted
+    type: simple
+    type_params:
+      measure:
+        name: discounted_price
+  - name: met_quantity
+    description: The quantity of items purchased in the order.
+    label: Item Quanitity
+    type: simple
+    type_params:
+      measure:
+        name: quantity
+  - name: met_gross_item_sales_amount
+    description: The gross sales amount for the item.
+    label: Sales Amount - Gross
+    type: simple
+    type_params:
+      measure:
+        name: gross_item_sales_amount
+  - name: met_discounted_item_sales_amount
+    description: The discounted item sales amount for the item.
+    label: Sales Amount - Discounted
+    type: simple
+    type_params:
+      measure:
+        name: discounted_item_sales_amount
+  - name: met_item_discount_amount
+    description: The item discount amount.
+    label: Sales Discount
+    type: simple
+    type_params:
+      measure:
+        name: item_discount_amount
+  - name: met_item_tax_amount
+    description: The item tax amount.
+    label: Sales Amount - Tax
+    type: simple
+    type_params:
+      measure:
+        name: item_tax_amount
+  - name: met_net_item_sales_amount
+    description: The item sales amount.
+    label: Sales Amount - Net
+    type: simple
+    type_params:
+      measure: 
+        name: net_item_sales_amount
+  - name: met_discount_percentage_average
+    description: The item discount percentage averaged over whatever aggregation.
+    type: simple
+    label: Sales Discount Percentage Average
+    type_params:
+      measure:
+        name: discount_percentage_average
+  - name: met_tax_rate_average
+    description: The average tax rate over whatever aggregation.
+    label: Sales Tax Rate Average
+    type: simple
+    type_params:
+      measure:
+        name: tax_rate_average
+  - name: met_count_order_item
+    description: The count of order items.
+    label: Count Order Items
+    type: simple
+    type_params:
+      measure:
+        name: count_order_item
+  - name: met_count_order
+    description: The count of orders.
+    label: Count Orders
+    type: simple
+    type_params:
+      measure:
+        name: count_order
+  - name: met_count_part
+    description: The count of parts.
+    label: Count Parts
+    type: simple
+    type_params:
+      measure:
+        name: count_part
+  - name: met_count_supplier
+    description: The count of suppliers.
+    label: Count Suppliers
+    type: simple
+    type_params:
+      measure:
+        name: count_supplier
+  ### Ratio Metrics ###
+  - name: met_cost_ratio
+    description: The ratio of cost of item to the sales price of the item (using totals) (原価率：商品の仕入れ原価の合計を、商品の売上金額の合計で割ったもの)
+    label: Cost Ratio
+    type: ratio # TODO: 適切なmetricのtypeを指定する
+    type_params:
+      numerator: total_cost # TODO: 適切な原価率の分子を指定する
+      denominator: net_item_sales_amount # TODO: 適切な原価率の分母を指定する
+  ### Cumulative Metrics
+  - name: met_cumulative_sales
+    description: Cumulative sales over a specified time period. (指定した時間の期間における、売上金額の累積合計)
+    type: cumulative # TODO: 適切なmetricのtypeを指定する
+    label: Cumulative Net Sales
+    type_params:
+      measure:
+        name: net_item_sales_amount # TODO: 適切なmeasureのnameを指定する（Net Salesの合計）
+        fill_nulls_with: 0
+        join_to_timespine: true
+      cumulative_type_params:
+        grain_to_date: year # TODO: その年の累計売上が表示されるようにする
+
+  ### Derived Metrics
+  - name: met_gross_profit
+    description: The gross profit of a particular line item.
+    type: derived
+    label: Gross Profit
+    type_params:
+      expr: sales - cost
+      metrics:
+        - name: met_net_item_sales_amount
+          alias: sales
+        - name: met_total_cost
+          alias: cost
+  - name: met_average_sales_per_customer
+    description: The average total sales per customer
+    type: derived
+    label: Average Sales Per Customer
+    type_params:
+      expr: sales / count_of_customers # TODO: 顧客あたりの売上金額の平均を表す適切な式を指定する
+      metrics:
+        - name: met_net_item_sales_amount
+          alias: sales
+        - name: met_count_customers
+          alias: count_of_customers

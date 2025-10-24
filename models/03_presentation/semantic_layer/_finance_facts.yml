@@ -1,0 +1,117 @@
+semantic_models:
+- name: sem_order_items
+  model: ref('fct_order_items')
+  description: Order items fact table with detailed sales and order information.
+  defaults:
+    agg_time_dimension: order_date # TODO: このsemantic modelで使用するデフォルトの時間のdimensionを指定する
+
+#### Entities ####
+  entities:
+    - name: order_item
+      type: primary # TODO: 主キーとする
+      expr: order_item_id
+    - name: order_id # "order" is a reserved word so we must reference the order in this way
+      type: foreign
+    - name: customer
+      type: foreign # TODO: customerはsemantic modelのdim_customersの主キーであるのここでは外部キーとする
+      expr: customer_id
+    - name: part
+      type: foreign
+      expr: part_id
+    - name: supplier
+      type: foreign
+      expr: supplier_id
+
+#### Dimensions ####
+  dimensions:
+  # Categorigcal Dimensions
+    - name: status_code
+      description: Status of the order item.
+      expr: order_item_status_code
+      type: categorical # TODO: 適切なdimensionのtypeを指定する
+      # 最小の粒度を指定する
+    - name: return_flag
+      description: Return flag of the order item.
+      type: categorical # TODO: 適切なdimensionのtypeを指定する
+    - name: ship_mode
+      description: Shipping mode of the order item.
+      type: categorical # TODO: 適切なdimensionのtypeを指定する
+    # Time Dimensions
+    - name: order_date
+      description: Date of the order.
+      type: time # TODO: 適切なdimensionのtypeを指定する
+      type_params:
+        time_granularity: day # TODO: 適切なdimensionの粒度を指定する
+    - name: ship_date
+      description: Date the order item was shipped.
+      type: time # TODO: 適切なdimensionのtypeを指定する
+      type_params:
+        time_granularity: day # TODO: 適切なdimensionの粒度を指定する
+    - name: commit_date
+      description: Date the order item was committed.
+      type: time # TODO: 適切なdimensionのtypeを指定する
+      type_params:
+        time_granularity: day # TODO: 適切なdimensionの粒度を指定する
+    - name: receipt_date
+      description: Date the order item was received.
+      type: time # TODO: 適切なdimensionのtypeを指定する
+      type_params:
+        time_granularity: day # TODO: 適切なdimensionの粒度を指定する
+
+#### Measures ####
+  measures:
+    # Sums
+    - name: item_cost
+      description: Cost from the supplier for the order item.
+      agg: sum # TODO: 合計値を表す適切な集計関数を指定する
+      expr: supplier_cost # TODO: 注文商品の、サプライヤーからの仕入れ原価の単価を表す列を指定する
+    - name: total_cost
+      description: Cost from the supplier for the order item multiplied by the quantity purchased.
+      agg: sum # TODO: 合計値を表す適切な集計関数を指定する
+      expr: total_supplier_cost
+    - name: base_price
+      description: Base price of the order item.
+      agg: sum # TODO: 合計値を表す適切な集計関数を指定する
+    - name: discounted_price
+      description: Discounted price of the order item.
+      agg: sum # TODO: 合計値を表す適切な集計関数を指定する
+    - name: quantity
+      description: Total units of the order item.
+      agg: sum # TODO: 合計値を表す適切な集計関数を指定する
+    - name: gross_item_sales_amount
+      description: Gross sales amount of the order item.
+      agg: sum # TODO: 合計値を表す適切な集計関数を指定する
+    - name: discounted_item_sales_amount
+      description: Discounted sales amount of the order item.
+      agg: sum # TODO: 合計値を表す適切な集計関数を指定する
+    - name: item_discount_amount
+      description: Discount amount on the order item.
+      agg: sum # TODO: 合計値を表す適切な集計関数を指定する
+    - name: item_tax_amount
+      description: Tax amount on the order item.
+      agg: sum # TODO: 合計値を表す適切な集計関数を指定する
+    - name: net_item_sales_amount
+      description: Net sales amount of the order item.
+      agg: sum # TODO: 合計値を表す適切な集計関数を指定する
+    # Averages
+    - name: discount_percentage_average
+      description: Discount percentage applied to the order item.
+      agg: average # TODO: 平均値を表す適切な集計関数を指定する
+      expr: discount_percentage
+    - name: tax_rate_average
+      description: Tax rate applied to the order item.
+      agg: average # TODO: 平均値を表す適切な集計関数を指定する
+      expr: tax_rate
+    # Counts
+    - name: count_order_item
+      agg: count # TODO: 件数を表す適切な集計関数を指定する
+      expr: order_item_id
+    - name: count_order
+      agg: count # TODO: 件数を表す適切な集計関数を指定する
+      expr: order_id
+    - name: count_part
+      agg: count # TODO: 件数を表す適切な集計関数を指定する
+      expr: part_id
+    - name: count_supplier
+      agg: count # TODO: 件数を表す適切な集計関数を指定する
+      expr: supplier_id
