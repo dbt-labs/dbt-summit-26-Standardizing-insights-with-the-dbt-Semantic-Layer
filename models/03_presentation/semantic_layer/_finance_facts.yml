@@ -28,13 +28,13 @@ semantic_models:
     - name: status_code
       description: Status of the order item.
       expr: order_item_status_code
-      type: Categorical
+      type: categorical
     - name: return_flag
       description: Return flag of the order item.
-      type: Categorical
+      type: categorical
     - name: ship_mode
       description: Shipping mode of the order item.
-      type: Categorical
+      type: categorical
     # Time Dimensions
     - name: order_date
       description: Date of the order.
