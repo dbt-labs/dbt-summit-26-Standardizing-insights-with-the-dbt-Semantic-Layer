@@ -125,7 +125,7 @@ metrics:
   ### Cumulative Metrics
   - name: met_cumulative_sales
     description: Cumulative sales over a specified time period. (指定した時間の期間における、売上金額の累積合計)
-    type: Cumulative
+    type: cumulative
     label: Cumulative Net Sales
     type_params:
       measure:

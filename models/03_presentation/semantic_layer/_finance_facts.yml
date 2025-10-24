@@ -28,32 +28,32 @@ semantic_models:
     - name: status_code
       description: Status of the order item.
       expr: order_item_status_code
-      type: Categorigcal
+      type: Categorical
     - name: return_flag
       description: Return flag of the order item.
-      type: Categorigcal
+      type: Categorical
     - name: ship_mode
       description: Shipping mode of the order item.
-      type: Categorigcal
+      type: Categorical
     # Time Dimensions
     - name: order_date
       description: Date of the order.
-      type: Time
+      type: time
       type_params:
         time_granularity: day
     - name: ship_date
       description: Date the order item was shipped.
-      type: Time
+      type: time
       type_params:
         time_granularity: day
     - name: commit_date
       description: Date the order item was committed.
-      type: Time
+      type: time
       type_params:
         time_granularity: day
     - name: receipt_date
       description: Date the order item was received.
-      type: Time
+      type: time
       type_params:
         time_granularity: day
 
