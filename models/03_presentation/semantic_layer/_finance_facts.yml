@@ -40,17 +40,17 @@ semantic_models:
       description: Date of the order.
       type: time
       type_params:
-        time_granularity: day
-    - name: order_date_2
-      description: Date of the order. (week)
-      type: time
-      type_params:
-        time_granularity: week
-    - name: order_date_3
-      description: Date of the order. (month)
-      type: time
-      type_params:
         time_granularity: month
+    # - name: order_date_2
+    #   description: Date of the order. (week)
+    #   type: time
+    #   type_params:
+    #     time_granularity: week
+    # - name: order_date_3
+    #   description: Date of the order. (month)
+    #   type: time
+    #   type_params:
+    #     time_granularity: month
     - name: ship_date
       description: Date the order item was shipped.
       type: time
