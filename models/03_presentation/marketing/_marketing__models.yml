@@ -9,27 +9,74 @@ groups:
 models:
   - name: dim_customers
     description: Customer dimensions table
+    semantic_model:
+      enabled: true
+      name: sem_customers
+
+    agg_time_dimension: dummy_date
+
     columns:
       - name: customer_id
         description: Primary id on the customers table
         data_tests:
           - unique
           - not_null
+        entity:
+          type: primary
+          name: customer
+
       - name: region
         description: region name
         data_tests:
           - accepted_values:
               values: ['AFRICA','MIDDLE EAST','ASIA','EUROPE','AMERICA']
               severity: warn
+        dimension:
+          type: categorical
+
       - name: name
-        description: customer id
+        description: customer name
+        dimension:
+          type: categorical
+
       - name: address
         description: address of the customer
+        dimension:
+          type: categorical
+
       - name: nation
         description: nation name
+        dimension:
+          type: categorical
+
       - name: phone_number
         description: phone number of the customer
+
       - name: account_balance
         description: '{{ doc("account_balance") }}'
+
       - name: market_segment
         description: market segment of the customer
+        dimension:
+          type: categorical
+
+      - name: dummy_date
+        description: Synthetic date column used as the required agg_time_dimension.
+        granularity: day
+        dimension:
+          type: time
+
+    metrics:
+      - name: account_balance
+        description: The account balance of the customer.
+        label: Account Balance
+        type: simple
+        agg: sum
+        expr: account_balance
+
+      - name: count_customer
+        description: The distinct count of customers.
+        label: Count Customers
+        type: simple
+        agg: count_distinct
+        expr: customer_id
