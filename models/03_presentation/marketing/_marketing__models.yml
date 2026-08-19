@@ -29,8 +29,10 @@ models:
         description: region name
         data_tests:
           - accepted_values:
-              values: ['AFRICA','MIDDLE EAST','ASIA','EUROPE','AMERICA']
-              severity: warn
+              arguments:
+                values: ['AFRICA','MIDDLE EAST','ASIA','EUROPE','AMERICA']
+              config:
+                severity: warn
         dimension:
           type: categorical
 
@@ -74,7 +76,7 @@ models:
         agg: sum
         expr: account_balance
 
-      - name: count_customer
+      - name: met_count_customers
         description: The distinct count of customers.
         label: Count Customers
         type: simple
