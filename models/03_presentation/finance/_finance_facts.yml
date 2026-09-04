@@ -268,3 +268,19 @@ metrics:
         alias: sales
       - name: met_count_customers
         alias: count_of_customers
+saved_queries:
+  - name: order_item_price_summary
+    description: Summary of base price, discounted price, and net item sales for ordered items by ship mode.
+    label: Order Item Price Summary
+    query_params:
+      metrics:
+        - base_price
+        - discounted_price
+        - net_item_sales_amount
+      group_by:
+        - "Dimension('ship_mode')"
+    exports:
+      - name: order_item_price_summary
+        config:
+          export_as: table
+          alias: order_item_price_summary
