@@ -12,7 +12,7 @@ models:
     semantic_model:
           enabled: true
           name: sem_order_items
-          agg_time_dimension: order_date
+    agg_time_dimension: order_date
     columns:
       - name: order_item_id
         description: '{{ doc("order_item_id") }}'
@@ -29,8 +29,8 @@ models:
       - name: customer_id
         description: foreign id for customers
         entity: 
-        type: foriegn
-        name: customer
+          type: foreign
+          name: customer
       - name: part_id
         description: foreign id for part
       - name: supplier_id
