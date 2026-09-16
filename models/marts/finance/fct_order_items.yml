@@ -68,7 +68,7 @@ models:
           type: categorical
       - name: supplier_cost
         description: '{{ doc("cost") }}'
-        
+
       - name: total_supplier_cost
         description: '{{doc("total_cost")}}'
       - name: base_price
