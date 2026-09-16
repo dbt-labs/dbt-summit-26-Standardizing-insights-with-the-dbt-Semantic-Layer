@@ -17,7 +17,7 @@ models:
       - name: order_item_id
         description: '{{ doc("order_item_id") }}'
         entity:
-          type: pimary
+          type: primary
           name: order_item
         data_tests:
           - unique
