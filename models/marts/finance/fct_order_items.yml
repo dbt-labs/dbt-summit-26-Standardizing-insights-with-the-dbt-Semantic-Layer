@@ -13,6 +13,53 @@ models:
       enabled: true
       name: sum_order_items
     agg_time_dimension: order_date
+    metrics:
+      # 기존
+      - name: item_cost
+        type: simple
+        agg: sum
+        expr: supplier_cost
+
+      - name: count_customers_with_orders
+        type: simple
+        agg: count_distinct
+        expr: customer_id
+
+      # 1. Simple Metric
+      - name: total_cost
+        description: Cost from the supplier for the order item multiplied by the quantity purchased.
+        type: simple
+        agg: sum
+        expr: supplier_cost * quantity
+
+      # gross sales - ratio 계산용
+      - name: gross_sales
+        type: simple
+        agg: sum
+        expr: gross_item_sales_amount
+
+      # 2. Ratio Metric
+      - name: met_cost_ratio
+        description: The ratio of supplier cost to gross sales amount.
+        type: ratio
+        numerator: total_cost
+        denominator: gross_sales
+
+      # net sales - derived 계산용
+      - name: net_sales
+        type: simple
+        agg: sum
+        expr: net_item_sales_amount
+
+      # 3. Derived Metric
+      - name: met_gross_profit
+        description: Net sales less total supplier cost.
+        type: derived
+        expr: net_sales - total_cost
+        input_metrics:
+          - name: net_sales
+          - name: total_cost
+          
     columns:
       - name: order_item_id
         description: '{{ doc("order_item_id") }}'
@@ -31,6 +78,9 @@ models:
 
       - name: order_date
         description: date of the order
+        granularity: day 
+        dimension: 
+          type: time
 
       - name: customer_id
         description: foreign id for customers
@@ -64,9 +114,12 @@ models:
 
       - name: ship_mode
         description: '{{ doc("ship_mode") }}'
+        dimension: 
+          type : categorical
 
       - name: supplier_cost
         description: '{{ doc("cost") }}'
+
 
       - name: total_supplier_cost
         description: '{{ doc("total_cost") }}'
