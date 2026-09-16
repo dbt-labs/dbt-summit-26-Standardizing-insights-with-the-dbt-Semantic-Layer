@@ -49,6 +49,8 @@ models:
         description: '{{ doc("line_number") }}'
       - name: ship_date
         description: '{{ doc("ship_date") }}'
+        dimension: 
+          type: categorical
       - name: commit_date
         description: '{{ doc("commit_date") }}'
       - name: receipt_date
