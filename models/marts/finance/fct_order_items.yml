@@ -30,7 +30,7 @@ models:
         description: date of the order
       - name: customer_id
         description: foreign id for customers
-        enitity:
+        entity:
           type: foreign
           name: customer
       - name: part_id
