@@ -13,8 +13,8 @@ models:
       - name: order_item_id
         description: '{{ doc("order_item_id") }}'
         semantic_model:
-        enabled: true 
-        name: sem_order_items
+          enabled: true 
+          name: sem_order_items
       agg_time_dimension: order_date
         data_tests:
           - unique
