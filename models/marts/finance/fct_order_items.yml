@@ -24,14 +24,14 @@ models:
           name: order_item
       - name: order_id
         description: foreign id for orders
-          entity:
-            type: foreign
-            name: order_id
+        entity:
+          type: foreign
+          name: order_id
       - name: order_date
         description: date of the order
       - name: customer_id
         description: foreign id for customers
-          entity:
+        entity:
           type: foreign
           name: customer
       - name: part_id
