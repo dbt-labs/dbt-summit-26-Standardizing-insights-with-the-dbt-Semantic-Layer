@@ -28,6 +28,9 @@ models:
           name: order_id
       - name: order_date
         description: date of the order
+        granularity: day
+        dimension: 
+          type: time
       - name: customer_id
         description: foreign id for customers
         entity:
@@ -51,6 +54,8 @@ models:
         description: '{{ doc("receipt_date") }}'
       - name: ship_mode
         description: '{{ doc("ship_mode") }}'
+        dimension: 
+          type: categorical
       - name: supplier_cost
         description: '{{ doc("cost") }}'
       - name: total_supplier_cost
