@@ -31,9 +31,9 @@ models:
         description: date of the order
       - name: customer_id
         description: foreign id for customers
-          entity:
-            type: foreign
-            name: customer
+        entity:
+          type: foreign
+          name: customer
       - name: part_id
         description: foreign id for part
       - name: supplier_id
