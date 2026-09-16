@@ -16,16 +16,12 @@ models:
     columns:
       - name: order_item_id
         description: '{{ doc("order_item_id") }}'
-        semantic_model:
-          enabled: true
-          name: sem_order_items
-        agg_time_dimension: order_date
+        entity:
+          type: primary
+          name: order_item
         data_tests:
           - unique
           - not_null
-        entity: 
-          type: primary 
-          name: order_item
       - name: order_id
         description: foreign id for orders
         entity:
