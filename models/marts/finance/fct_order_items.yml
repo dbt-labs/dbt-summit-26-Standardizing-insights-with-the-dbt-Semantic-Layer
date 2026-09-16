@@ -9,10 +9,10 @@ groups:
 models:
   - name: fct_order_items
     description: order items fact table
-      semantic_model:
-        enabled:true
-        name: sem_order_items
-        agg_time_dimension:order_date
+    semantic_model:
+      enabled: true
+      name: sem_order_items
+    agg_time_dimension: order_date
     columns:
       - name: order_item_id
         description: '{{ doc("order_item_id") }}'
@@ -21,11 +21,11 @@ models:
           - not_null
         entity:
           type: primary
-          name_order_item
+          name: order_item
       - name: order_id
         description: foreign id for orders
         entity:
-          type: forign
+          type: foreign
           name: order_id
       - name: order_date
         description: date of the order
@@ -52,6 +52,8 @@ models:
         description: '{{ doc("receipt_date") }}'
       - name: ship_mode
         description: '{{ doc("ship_mode") }}'
+        dimension: 
+          type: categorical
       - name: supplier_cost
         description: '{{ doc("cost") }}'
       - name: total_supplier_cost
