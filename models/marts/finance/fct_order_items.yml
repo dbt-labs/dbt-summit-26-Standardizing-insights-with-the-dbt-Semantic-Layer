@@ -14,10 +14,15 @@ models:
        name: sem_order_items
     agg_time_dimension: order_date
     metrics:
-       name: item_cost
-        type: simple
-        agg: sum
-        expr: supplier_cost
+     - name: item_cost
+       type: simple
+       agg: sum
+       expr: supplier_cost
+       
+     - name: count_customers
+       type: simple
+       agg: count_distinct
+       expr: customer_id
     columns:
       - name: order_item_id
         description: '{{ doc("order_item_id") }}'
