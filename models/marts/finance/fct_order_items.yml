@@ -26,7 +26,7 @@ models:
         description: foreign id for orders
         entity:
           type: foreign
-          name: order_item
+          name: order
       - name: order_date
         description: date of the order
         granularity: day
@@ -36,7 +36,7 @@ models:
         description: foreign id for customers
         entity:
           type: foreign
-          name: order_item
+          name: customer
       - name: part_id
         description: foreign id for part
       - name: supplier_id
