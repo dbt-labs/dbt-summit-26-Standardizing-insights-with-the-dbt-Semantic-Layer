@@ -22,6 +22,18 @@ models:
         type: simple
         agg: count_distinct
         expr: customer_id
+      - name: total_cost
+        type: simple
+        agg:  sum
+        expr: supplier_cost * quanity_purchased
+      - name: met_cost_ratio
+        type: ratio
+        agg:  sum
+        expr: supplier_cost / gross_sales_amount
+      - name: met_gross_profit
+        type: derived
+        agg:  sum
+        expr: net_sales - total_supplier_cost
     columns:
       - name: order_item_id
         description: '{{ doc("order_item_id") }}'
