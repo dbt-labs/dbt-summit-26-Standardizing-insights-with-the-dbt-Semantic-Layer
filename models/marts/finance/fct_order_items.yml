@@ -9,22 +9,44 @@ groups:
 models:
   - name: fct_order_items
     description: order items fact table
+    semantic_model:
+      enabled: true
+      name: sem_order_items
+    agg_time_dimension: order_date
     columns:
       - name: order_item_id
         description: '{{ doc("order_item_id") }}'
         data_tests:
           - unique
           - not_null
+        entity:
+          type: primary
+          name: order_item
       - name: order_id
         description: foreign id for orders
+        entity:
+          type: foreign
+          name: order
       - name: order_date
         description: date of the order
+        granularity: day
+        dimension:
+          type: time
       - name: customer_id
         description: foreign id for customers
+        entity:
+          type: foreign
+          name: customer
       - name: part_id
         description: foreign id for part
+        entity:
+          type: foreign
+          name: part
       - name: supplier_id
         description: foreign id for suppliers
+        entity:
+          type: foreign
+          name: supplier
       - name: order_item_status_code
         description: status of the order item
       - name: return_flag
@@ -51,10 +73,9 @@ models:
         description: '{{ doc("discounted_price") }}'
       - name: tax_rate
         description: '{{ doc("tax_rate") }}'
-      - name: order_item_count
-        description: count of order items
       - name: quantity
         description: total units
+
       - name: gross_item_sales_amount
         description: '{{ doc("gross_item_sales_amount") }}'
       - name: discounted_item_sales_amount
