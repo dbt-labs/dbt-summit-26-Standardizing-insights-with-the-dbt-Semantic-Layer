@@ -6,7 +6,7 @@ Our analytics stack:
 - Loader: Snowflake's TPCH sample data
 - Warehouse: Snowflake
 - Transformation: dbt
-
+ 
 ## Using This Project
 
 <details>
