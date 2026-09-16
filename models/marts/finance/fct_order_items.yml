@@ -12,66 +12,94 @@ models:
     columns:
       - name: order_item_id
         description: '{{ doc("order_item_id") }}'
-          semantic_model:
-            enabled: try_validate_utf8()
-            name: sum_order_items
-          agg_time_dimension: order_date
+        semantic_model:
+          enabled: true
+          name: sum_order_items
+        agg_time_dimension: order_date
         data_tests:
           - unique
           - not_null
         entity:
           type: primary
           name: order_item
+
       - name: order_id
         description: foreign id for orders
-          entity:
-            type: foreign
-            name: order_id
+        entity:
+          type: foreign
+          name: order_id
+
       - name: order_date
         description: date of the order
+
       - name: customer_id
         description: foreign id for customers
+        entity:
+          type: foreign
+          name: customer
+
       - name: part_id
         description: foreign id for part
+
       - name: supplier_id
         description: foreign id for suppliers
+
       - name: order_item_status_code
         description: status of the order item
+
       - name: return_flag
         description: '{{ doc("return_flag") }}'
+
       - name: line_number
         description: '{{ doc("line_number") }}'
+
       - name: ship_date
         description: '{{ doc("ship_date") }}'
+
       - name: commit_date
         description: '{{ doc("commit_date") }}'
+
       - name: receipt_date
         description: '{{ doc("receipt_date") }}'
+
       - name: ship_mode
         description: '{{ doc("ship_mode") }}'
+
       - name: supplier_cost
         description: '{{ doc("cost") }}'
+
       - name: total_supplier_cost
-        description: '{{doc("total_cost")}}'
+        description: '{{ doc("total_cost") }}'
+
       - name: base_price
         description: '{{ doc("base_price") }}'
+
       - name: discount_percentage
         description: '{{ doc("discount_percentage") }}'
+
       - name: discounted_price
         description: '{{ doc("discounted_price") }}'
+
       - name: tax_rate
         description: '{{ doc("tax_rate") }}'
+
       - name: order_item_count
         description: count of order items
+
       - name: quantity
         description: total units
+
       - name: gross_item_sales_amount
         description: '{{ doc("gross_item_sales_amount") }}'
+
       - name: discounted_item_sales_amount
         description: '{{ doc("discounted_item_sales_amount") }}'
+
       - name: item_discount_amount
         description: '{{ doc("item_discount_amount") }}'
+
       - name: item_tax_amount
         description: '{{ doc("item_tax_amount") }}'
+
       - name: net_item_sales_amount
         description: '{{ doc("net_item_sales_amount") }}'
