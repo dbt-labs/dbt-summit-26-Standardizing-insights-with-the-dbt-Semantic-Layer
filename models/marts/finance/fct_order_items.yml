@@ -9,10 +9,10 @@ groups:
 models:
   - name: fct_order_items
     description: order items fact table
-        semantic model: 
-        enabled: true
-        name: sem_order_items
-      agg_time_dimension: order_date
+    semantic_model:
+      enabled: true
+      name: sem_order_items
+    agg_time_dimension: order_date
     columns:
       - name: order_item_id
         description: '{{ doc("order_item_id") }}'
