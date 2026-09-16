@@ -13,6 +13,22 @@ models:
       enabled: true
       name: sem_order_items
     agg_time_dimension: order_date
+    metrics:
+      - name: item_cost
+        type: simple
+        agg: sum
+        expr: supplier_cost
+      - name: customer_count
+        type: simple
+        agg: count_distinct
+        expr: customer_id
+      - name: total_cost
+        type: simple
+        agg:
+        expr: 
+      - name: met_cost_ratio
+        agg:
+        
     columns:
       - name: order_item_id
         entity:
@@ -29,6 +45,9 @@ models:
         description: foreign id for orders
       - name: order_date
         description: date of the order
+        granularity: day
+        dimension: 
+          type: time
       - name: customer_id
         description: foreign id for customers
       - name: part_id
@@ -49,6 +68,8 @@ models:
         description: '{{ doc("receipt_date") }}'
       - name: ship_mode
         description: '{{ doc("ship_mode") }}'
+        dimension: 
+          type: categorical
       - name: supplier_cost
         description: '{{ doc("cost") }}'
       - name: total_supplier_cost
