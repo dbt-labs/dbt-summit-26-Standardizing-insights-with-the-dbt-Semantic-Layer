@@ -15,12 +15,25 @@ models:
         data_tests:
           - unique
           - not_null
+        entity:
+          type: primary
+          name: order_item
       - name: order_id
         description: foreign id for orders
+          entity:
+            type: foreign
+            name: order_id
+        semantic_model:
+          enabled: true
+          name: sem_order_items
+        agg_time_dimension: order_date
       - name: order_date
         description: date of the order
       - name: customer_id
         description: foreign id for customers
+          entity:
+            type: foreign
+            name: customer
       - name: part_id
         description: foreign id for part
       - name: supplier_id
