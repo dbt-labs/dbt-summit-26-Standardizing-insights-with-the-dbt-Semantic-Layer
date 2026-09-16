@@ -13,29 +13,6 @@ models:
       enabled: true
       name: sem_order_items
     agg_time_dimension: order_date
-    metrics:
-      - name: item_cost
-        type: simple
-        agg: sum
-        expr: supplier_cost
-      - name: count_customers_with_orders
-        type: simple
-        agg: count_distinct
-        expr: customer_id
-      - name: total_cost
-        agg: sum
-        expr: total_supplier_cost
-      - name: met_cost_ratio
-        type: ratio
-        numerator: total_supplier_cost
-        denominator: gross_item_sales_amount
-      - name: met_gross_profit
-        type: derived
-        expr: net_sales - total_supplier_cost
-        input_metrics:
-          - name: net_item_sales_amount
-            alias: net_sales
-          - name: total_supplier_cost
 
     columns:
       - name: order_item_id
@@ -106,3 +83,30 @@ models:
         description: '{{ doc("item_tax_amount") }}'
       - name: net_item_sales_amount
         description: '{{ doc("net_item_sales_amount") }}'
+
+    metrics:
+      - name: item_cost
+        type: simple
+        agg: sum
+        expr: supplier_cost
+      - name: count_customers_with_orders
+        type: simple
+        agg: count_distinct
+        expr: customer_id
+      - name: total_cost
+        agg: sum
+        expr: total_supplier_cost
+      - name: met_cost_ratio
+        type: ratio
+        numerator: total_supplier_cost
+        denominator: gross_item_sales_amount
+      - name: met_gross_profit
+        description: Net sales less total supplier cost.
+        label: Gross Profit
+        type: derived
+        expr: sales - cost
+        input_metrics:
+          - name: net_item_sales_amount
+            alias: sales
+          - name: total_cost
+            alias: cost
