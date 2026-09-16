@@ -1,32 +1,20 @@
-# dbt Training - dbt Onboarding Exemplar
+# dbt Summit 2026: Standardizing Insights with the Semantic Layer
 
-This is a [dbt](https://www.getdbt.com) project for dbt Lab's dbt Onboarding training.
+This is a [dbt](https://www.getdbt.com) project for dbt Lab's dbt Summit 2026.
 
 Our analytics stack:
 - Loader: Snowflake's TPCH sample data
 - Warehouse: Snowflake
 - Transformation: dbt
 
-## Permissions
-
-Access to the Snowflake warehouse is managed on a per-user basis by the training team. 
-If you need access, open a request in the #ask-training Slack channel.
-
 ## Using This Project
 
 <details>
   
-  <summary>Developing in dbt Studio</summary>
+  <summary>During the workshop</summary>
   <p></p>
   
-  The easiest way to contribute to this project is by developing in dbt Cloud. If you need access, contact the training team
-  in the #ask-training Slack channel.
-  
-  Once you have access, navigate to the develop tab in the menu and fill out any required information to get connected.
-  
-  In the command line bar at the bottom of the interface, run the following commands one at a time:
-  - `dbt deps`  - installs any packages defined in the packages.yml file.
-  - `dbt build` - builds the models, seeds, and snapshots found in the project into your dev schema in the warehouse and executes data tests. 
+- use the `exemplar` branch if you get stuck or want to see a further built out Semantic Layer 
   
 </details>
   
