@@ -13,7 +13,7 @@ models:
       enabled: true
       name: sem_order_items
     agg_time_dimension: order_date
-    metrics: #SL recommended to put above columns to avoid scrolling
+    metrics: # SL recommended to put above columns to avoid scrolling
       - name: item_cost
         type: simple
         agg: sum 
@@ -22,6 +22,26 @@ models:
         type: simple
         agg: count_distinct
         expr: customer_id  # if metric name is diff from actual column
+      - name: total_cost
+        description: Cost from the supplier for the order item multiplied by the quantity purchased
+        type: simple
+        agg: sum
+        expr: total_supplier_cost
+      - name: met_cost_ratio
+        description: The ratio of supplier cost to gross sales amount.
+        type: ratio
+        numerator: total_cost # OK to reference metric
+        denominator: gross_item_sales_amount
+      - name: c
+        description: Net sales less total supplier cost.
+        label: Gross Profit
+        type: derived
+        expr: net_sales - cost
+        input_metrics:
+          - name: net_item_sales_amount
+            alias: net_sales
+          - name: total_cost # OK to reference metric
+            alias: cost
     columns:
       - name: order_item_id
         description: '{{ doc("order_item_id") }}'
