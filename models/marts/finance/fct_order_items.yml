@@ -13,6 +13,23 @@ models:
       enabled: true
       name: sem_order_items
     agg_time_dimension: order_date
+    metrics:
+      - name: item_cost
+        type: simple
+        agg: sum 
+        expr: supplier_cost
+      - name: count_customers_with_orders
+        type: simple 
+        agg: count_distinct
+        expr: customer_id
+      - name: total_cost
+        type: simple
+      - name: met_cost_ratio
+        type: ratio
+        numerator: total_cost
+        denominator: gross_item_sales_amount
+
+
     columns:
       - name: order_item_id
         description: '{{ doc("order_item_id") }}'
