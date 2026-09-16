@@ -17,7 +17,7 @@ models:
       - name: order_item_id
         description: '{{ doc("order_item_id") }}'
         entity: 
-          type: foreign
+          type: primary
           name: order_id
         data_tests:
           - unique
@@ -26,6 +26,9 @@ models:
         description: foreign id for orders
       - name: order_date
         description: date of the order
+        granularity: day
+        dimension: 
+          type: time
       - name: customer_id
         description: foreign id for customers
         entity: 
@@ -37,6 +40,7 @@ models:
         description: foreign id for suppliers
       - name: order_item_status_code
         description: status of the order item
+
       - name: return_flag
         description: '{{ doc("return_flag") }}'
       - name: line_number
