@@ -10,7 +10,7 @@ models:
   - name: fct_order_items
     description: order items fact table
     semantic_model:
-      enable: true
+      enabled: true
       name: sem_order_items
     agg_time_dimension: order_date
     columns:
