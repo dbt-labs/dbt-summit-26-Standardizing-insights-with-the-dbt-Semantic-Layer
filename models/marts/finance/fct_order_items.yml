@@ -13,6 +13,35 @@ models:
       enabled: true 
       name: sem_order_items
     agg_time_dimension: order_date
+    metrics:
+    - name: item_cost
+      type: simple
+      agg: sum 
+      expr: supplier_cost
+    - name: count_customers_with_orders
+      type: simple
+      agg: count_distinct
+      expr: customer_id
+    - name: total_cost
+      description: cost from the supplier for the order item multiplied by the quantity purchased.
+      type: simple
+      agg: sum 
+      expr: total_supplier_cost
+    - name: met_cost_ratio
+      description: the ratio of supplier cost to gross sales amount
+      type: ratio
+      numerator: total_cost
+      denominator: gross_item_sales_amount
+    - name: met_gross_profit
+      description: Net sales less total supplier cost.  
+      label: Gross Profit
+      type: derived
+      expr: sales - cost
+      input_metrics:
+        - name: net_item_sales_amount
+          alias: sales
+        - name: total_cost
+          alias: cost
     columns:
       - name: order_item_id
         description: '{{ doc("order_item_id") }}'
@@ -29,6 +58,9 @@ models:
           name: order_id
       - name: order_date
         description: date of the order
+        granularity: day
+        dimension:
+          type: time
       - name: customer_id
         description: foreign id for customers
         entity:
@@ -52,6 +84,8 @@ models:
         description: '{{ doc("receipt_date") }}'
       - name: ship_mode
         description: '{{ doc("ship_mode") }}'
+        dimension: 
+          type: categorical
       - name: supplier_cost
         description: '{{ doc("cost") }}'
       - name: total_supplier_cost
