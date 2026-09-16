@@ -15,7 +15,7 @@ models:
         semantic_model:
           enabled: true 
           name: sem_order_items
-      agg_time_dimension: order_date
+        agg_time_dimension: order_date
         data_tests:
           - unique
           - not_null
