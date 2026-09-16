@@ -31,9 +31,7 @@ models:
 
       - name: order_date
         description: date of the order
-        entity:
-          type: foreign
-          name: order_date
+
       - name: customer_id
         description: foreign id for customers
         entity:
