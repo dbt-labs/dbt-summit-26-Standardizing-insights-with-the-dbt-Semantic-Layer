@@ -29,6 +29,9 @@ models:
           name: order_id
       - name: order_date
         description: date of the order
+        granularity: day
+        dimension:
+          type: time
       - name: customer_id
         description: foreign id for customers
         entity:
