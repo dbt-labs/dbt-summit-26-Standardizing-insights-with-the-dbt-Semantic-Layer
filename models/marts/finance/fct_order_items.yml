@@ -8,7 +8,7 @@ groups:
 models:
   - name: fct_order_items
     description: order items fact table
-    sementic_model:
+    semantic_model:
       enabled: true 
       name: sem_order_items
     agg_time_dimension: order_date
