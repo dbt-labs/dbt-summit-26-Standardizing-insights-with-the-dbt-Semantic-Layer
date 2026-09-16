@@ -9,6 +9,7 @@ groups:
 models:
   - name: fct_order_items
     description: order items fact table
+    semantic_model:
       enabled: true
       name: sem_order_items
     columns:
