@@ -15,6 +15,7 @@ models:
         semantic_model:
           enable: true
           name: javed_semantic_model
+        agg_time_dimension: order_Date
         data_tests:
           - unique
           - not_null
