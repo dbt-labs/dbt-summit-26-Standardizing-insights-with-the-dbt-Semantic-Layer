@@ -30,7 +30,7 @@ models:
         description: foreign id for customers
         entity:
           type: foreign
-          name: customer
+          name: order_id
       - name: part_id
         description: foreign id for part
       - name: supplier_id
