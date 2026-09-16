@@ -32,6 +32,12 @@ models:
         type: simple
         agg: sum
         expr: gross_item_sales_amount
+      - name: net_sales_amount
+        description: Net sales amount after discounts and tax.
+        type: simple
+        agg: sum
+        expr: net_item_sales_amount
+
 
 
     columns:
@@ -111,3 +117,11 @@ metrics:
     type: ratio
     numerator: total_cost
     denominator: gross_sales_amount
+
+  - name: met_gross_profit
+    description: Net sales less total supplier cost.
+    type: derived
+    expr: net_sales_amount - total_cost
+    input_metrics:
+      - name: net_sales_amount
+      - name: total_cost
