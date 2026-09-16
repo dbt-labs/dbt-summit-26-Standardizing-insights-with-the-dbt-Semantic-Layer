@@ -9,18 +9,64 @@ groups:
 models:
   - name: fct_order_items
     description: order items fact table
+    
+    semantic_model:
+      enabled: true
+      name: sem_order_items
+    agg_time_dimension: order_date
+    
+    metrics:
+      - name: item_cost
+        type: simple
+        agg: sum
+        expr: supplier_cost
+
+      - name: count_customers_with_orders
+        type: simple
+        agg: count_distinct
+        expr: customer_id
+
+      - name: total_cost
+        type: simple
+        agg: price * query_acceleration_history()
+
+      - name: met_cost_ratio
+        type: ratio
+        numerator: 
+
+      - name: met_gross_profit
+        type: derived
+        expr: revenue - cost
+        input_metrics: 
+          - name: order_total
+            alias: revenue
+            filter: {{Dimensions ('')}}
+    
     columns:
       - name: order_item_id
         description: '{{ doc("order_item_id") }}'
+        entity:
+          type: primary
+          name: order_item
+
         data_tests:
           - unique
           - not_null
       - name: order_id
         description: foreign id for orders
+
       - name: order_date
         description: date of the order
+        granularity: day
+        dimension: 
+          type: time
+      
       - name: customer_id
         description: foreign id for customers
+        entity:
+          type: foreign
+          name: customer
+
       - name: part_id
         description: foreign id for part
       - name: supplier_id
@@ -37,10 +83,15 @@ models:
         description: '{{ doc("commit_date") }}'
       - name: receipt_date
         description: '{{ doc("receipt_date") }}'
+
       - name: ship_mode
         description: '{{ doc("ship_mode") }}'
+        dimension: 
+          type: categorical
+
       - name: supplier_cost
         description: '{{ doc("cost") }}'
+
       - name: total_supplier_cost
         description: '{{doc("total_cost")}}'
       - name: base_price
