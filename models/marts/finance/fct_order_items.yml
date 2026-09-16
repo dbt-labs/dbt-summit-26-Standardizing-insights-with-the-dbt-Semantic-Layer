@@ -20,8 +20,8 @@ models:
           - unique
           - not_null
         entity: 
-        type: primary
-        name: order_item
+          type: primary
+          name: order_item
       - name: order_id
         description: foreign id for orders
       - name: order_date
