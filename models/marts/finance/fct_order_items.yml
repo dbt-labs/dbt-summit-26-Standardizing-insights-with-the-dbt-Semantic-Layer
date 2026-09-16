@@ -11,7 +11,7 @@ models:
     description: order items fact table
     semantic_model:
        enabled: true
-        name: sem_order_items
+       name: sem_order_items
     agg_time_dimension: order_date
     columns:
       - name: order_item_id
@@ -19,7 +19,6 @@ models:
         entity: 
           type: foreign
           name: order_id
-
         data_tests:
           - unique
           - not_null
