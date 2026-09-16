@@ -9,7 +9,7 @@ groups:
 models:
   - name: fct_order_items
     description: order items fact table
-    semantic_model: # add under model descr in same indent
+    semantic_model: # SL add under model descr in same indent
       enabled: true
       name: sem_order_items
     agg_time_dimension: order_date
@@ -19,19 +19,22 @@ models:
         data_tests:
           - unique
           - not_null
-        entity: # add at column-level 
+        entity: # SL add at column-level 
           type: primary
           name: order_item
       - name: order_id
         description: foreign id for orders
-        entity: # add at column-level 
+        entity: # SL add at column-level 
           type: foreign
           name: order_id
       - name: order_date
         description: date of the order
+        granularity: day # SL time dimension required
+        dimension: 
+          type: time
       - name: customer_id
         description: foreign id for customers
-        entity: # add at column-level 
+        entity: # SL add at column-level 
           type: foreign
           name: customer
       - name: part_id
@@ -52,6 +55,8 @@ models:
         description: '{{ doc("receipt_date") }}'
       - name: ship_mode
         description: '{{ doc("ship_mode") }}'
+        dimension: # SL categorical dimension
+          type: categorical
       - name: supplier_cost
         description: '{{ doc("cost") }}'
       - name: total_supplier_cost
