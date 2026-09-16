@@ -12,6 +12,7 @@ models:
     semantic_model:
       enabled: true
       name: sem_order_items
+    agg_time.dimension: order_date
     columns:
       - name: order_item_id
         description: '{{ doc("order_item_id") }}'
