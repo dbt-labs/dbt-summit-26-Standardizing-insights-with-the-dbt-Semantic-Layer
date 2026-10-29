@@ -9,22 +9,46 @@ groups:
 models:
   - name: fct_order_items
     description: order items fact table
+    semantic_model:
+      enabled: true
+      name: sem_order_items
+
+    agg_time_dimension: order_date
+
     columns:
       - name: order_item_id
         description: '{{ doc("order_item_id") }}'
         data_tests:
           - unique
           - not_null
+        entity:
+          type: primary
+          name: order_item
       - name: order_id
         description: foreign id for orders
+        entity:
+          type: foreign
+          name: order_id
       - name: order_date
         description: date of the order
+        granularity: day
+        dimension:
+          type: time
       - name: customer_id
         description: foreign id for customers
+        entity:
+          type: foreign
+          name: customer
       - name: part_id
         description: foreign id for part
+        entity:
+          type: foreign
+          name: part
       - name: supplier_id
         description: foreign id for suppliers
+        entity:
+          type: foreign
+          name: supplier
       - name: order_item_status_code
         description: status of the order item
       - name: return_flag
@@ -65,3 +89,41 @@ models:
         description: '{{ doc("item_tax_amount") }}'
       - name: net_item_sales_amount
         description: '{{ doc("net_item_sales_amount") }}'
+
+    metrics:
+      - name: total_cost
+        description: Cost from the supplier for the order item multiplied by the quantity purchased.
+        label: Total Cost
+        type: simple
+        agg: sum
+        expr: total_supplier_cost
+
+      - name: gross_item_sales_amount
+        description: Gross sales amount of the order item.
+        label: Gross Item Sales Amount
+        type: simple
+        agg: sum
+        expr: gross_item_sales_amount
+
+      - name: net_item_sales_amount
+        description: Net sales amount of the order item.
+        label: Net Item Sales Amount
+        type: simple
+        agg: sum
+        expr: net_item_sales_amount
+
+      - name: met_cost_ratio
+        description: The ratio of supplier cost to gross sales amount.
+        label: Cost Ratio
+        type: ratio
+        numerator: total_cost
+        denominator: gross_item_sales_amount
+
+      - name: met_gross_profit
+        description: Net sales less total supplier cost.
+        label: Gross Profit
+        type: derived
+        expr: net_item_sales_amount - total_cost
+        input_metrics:
+          - name: net_item_sales_amount
+          - name: total_cost
